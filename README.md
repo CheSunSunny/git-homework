@@ -70,7 +70,7 @@ total_mem=$(free -h | grep Mem | awk '{print $2}')
 free_disk=$(df -h | grep '/$' | awk '{print $4}')
 
 # Формируем отчет
-report="$(date '+%Y-%m-%d %H:%M:%S') System Report\nCPU Load: ${cpu_load}%\nMemory Used: ${mem_used}/${total_mem}\nFree Disk Space: ${free_disk}"
+report="$(date '+%Y-%m-%d %H:%M:%S') System Report\nCPU Load: ${cpu_load}%\nMemory Used: ${mem_used}/${total_mem}\nFree Disk Space: ${free_disk}\n\n"
 
 # Запись отчета в файл
 echo "$report" >> ~/system_report.txt
