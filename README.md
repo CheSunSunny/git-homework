@@ -83,7 +83,11 @@ echo "$report" | mail -s "Daily System Report" admin@example.com
 3. Проверьте, выполняется ли скрипт (пришло ли на почту письмо)
 
 ## Ресурсы
+
 Официальная документация по cron: https://man7.org/linux/man-pages/man5/crontab.5.html
+
 Руководство по использованию cron: https://www.admin-magazine.com/article/a_beginners_guide_to_cron_jobs
+
 Статья о настройке cron: https://opensource.com/article/17/11/how-use-cron-linux
+
 Инструкция по работе с почтой через mailx: https://www.tecmint.com/send-mail-from-command-line-in-linux/
