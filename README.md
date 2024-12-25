@@ -57,14 +57,18 @@
 ```#!/bin/bash
 #Собираем данные о загрузке CPU
 cpu_load=$(top -bn1 | grep "Cpu(s)" | awk '{print $2}' | cut -d '.' -f1)
+
 #Используемая память
 mem_used=$(free -h | grep Mem | awk '{print $3}')
 total_mem=$(free -h | grep Mem | awk '{print $2}')
+
 #Свободное дисковое пространство
 free_disk=$(df -h | grep '/$' | awk '{print $4}')
+
 #Формируем отчет
 report="System Report\nCPU Load: ${cpu_load}%\nMemory Used: ${mem_used}/${total_mem}\nFree Disk Space: ${free_disk}"
-#Отправляем отчет по email, можно указать свой
+
+#Отправляем отчет по email (можно указать свой)
 echo "$report" | mail -s "Daily System Report" admin@example.com
 ```
 Не забудьте сделать скрипт исполняемым:
