@@ -49,10 +49,14 @@
 3. После добавления записи сохраните файл и выйдите из редактора. Теперь ваша задача настроена и будет выполняться согласно расписанию.
 
 ## Задание для выполнения
-Настроить задачу cron, которая будет отправлять отчет о состоянии системы (загрузка CPU, использование памяти, свободное дисковое пространство) администратору по электронной почте каждое утро в 8:00.
+Настроить задачу cron, которая будет создавать отчет о состоянии системы (загрузка CPU, использование памяти, свободное дисковое пространство) и записывать его в файл каждое утро в 8:00.
 
 ## Ход работы:
-1. Сначала создадим скрипт, который будет собирать необходимую информацию о системе. Назовем его system_report.sh и поместим в каталог /usr/local/bin/.
+1. Создадим файл system_report.txt в домашней директории.
+
+```touch ~/system_report.txt```
+
+2. Затем создадим скрипт, который будет собирать необходимую информацию о системе. Назовем его system_report.sh и поместим в домашней директории.
 
 ```#!/bin/bash
 # Собираем данные о загрузке CPU
@@ -66,21 +70,21 @@ total_mem=$(free -h | grep Mem | awk '{print $2}')
 free_disk=$(df -h | grep '/$' | awk '{print $4}')
 
 # Формируем отчет
-report="System Report\nCPU Load: ${cpu_load}%\nMemory Used: ${mem_used}/${total_mem}\nFree Disk Space: ${free_disk}"
+report="$(date '+%Y-%m-%d %H:%M:%S') System Report\nCPU Load: ${cpu_load}%\nMemory Used: ${mem_used}/${total_mem}\nFree Disk Space: ${free_disk}"
 
-# Отправляем отчет по email (можно указать свой)
-echo "$report" | mail -s "Daily System Report" admin@example.com
+# Запись отчета в файл
+echo "$report" >> ~/system_report.txt
 ```
 Не забудьте сделать скрипт исполняемым:
 
-```chmod +x /usr/local/bin/system_report.sh```
+```chmod +x ~/system_report.sh```
 
 2. Добавьте следующую запись в crontab:
 
-```0 8 * * * /usr/local/bin/system_report.sh```
+```0 8 * * * ~/system_report.sh```
 Эта запись означает, что скрипт system_report.sh будет выполняться каждый день в 08:00 утра.
 
-3. Проверьте, выполняется ли скрипт (пришло ли на почту письмо). Если нет, проверьте, установлен ли пакет mailutils.
+3. Проверьте, выполняется ли скрипт (записывается ли информация в файл).
 
 ## Ресурсы
 
@@ -89,5 +93,3 @@ echo "$report" | mail -s "Daily System Report" admin@example.com
 Руководство по использованию cron: https://www.admin-magazine.com/article/a_beginners_guide_to_cron_jobs
 
 Статья о настройке cron: https://opensource.com/article/17/11/how-use-cron-linux
-
-Инструкция по работе с почтой через mailx: https://www.tecmint.com/send-mail-from-command-line-in-linux/
